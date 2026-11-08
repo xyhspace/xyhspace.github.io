@@ -1,0 +1,137 @@
+/* ---------------------------------------------------------
+   小小星球 · 页面外壳
+   画布负责风景，小女孩是叠在上面的 SVG
+   --------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  background: #cfeade;
+  color: #3e2c45;
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+#scene {
+  position: fixed;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ---------------------------------------------------------
+   小女孩
+   #girl-layer 的原点就是她的脚底，缩放和倾斜都绕这里转
+   --------------------------------------------------------- */
+#girl-layer {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+
+#girl-layer svg {
+  position: absolute;
+  display: block;
+  overflow: visible;
+}
+
+.g-stick {
+  fill: none;
+  stroke: var(--g-stick, #463a52);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.g-stick-fill {
+  fill: var(--g-stick, #463a52);
+}
+
+/* 左下角的制作人水印：很淡，不抢画面，也不挡点击 */
+.credit {
+  position: fixed;
+  left: max(22px, env(safe-area-inset-left));
+  bottom: max(20px, env(safe-area-inset-bottom));
+  margin: 0;
+  z-index: 3;
+  font-size: 12.5px;
+  letter-spacing: 0.16em;
+  color: rgba(44, 35, 54, 0.58);
+  text-shadow: 0 1px 6px rgba(255, 255, 255, 0.6), 0 0 14px rgba(255, 255, 255, 0.35);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: color 0.8s ease, text-shadow 0.8s ease;
+}
+
+.credit b {
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+.is-night .credit {
+  color: rgba(248, 243, 234, 0.68);
+  text-shadow: 0 1px 6px rgba(10, 8, 20, 0.65), 0 0 14px rgba(10, 8, 20, 0.4);
+}
+
+/* 覆盖在太阳上的圆形按钮：完全透明，只提供点击与键盘焦点 */
+.sun-toggle {
+  position: fixed;
+  left: 0;
+  top: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  touch-action: manipulation;
+  will-change: transform;
+}
+
+.sun-toggle:focus-visible {
+  outline: 2px dashed rgba(255, 255, 255, 0.95);
+  outline-offset: 8px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.noscript {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  padding: 16px 24px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 15px;
+}
